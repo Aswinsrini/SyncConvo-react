@@ -99,7 +99,7 @@ const handleSubmit = async (e) => {
 
   if (response.ok) {
     const data = await response.json();
-    const parsedData = data.bot.trim(); // trims any trailing spaces/'\n'
+    const parsedData = data.bot["content"]; // trims any trailing spaces/'\n'
 
     typeText(messageDiv, parsedData);
   } else {
@@ -107,7 +107,6 @@ const handleSubmit = async (e) => {
 
     messageDiv.innerHTML = "Something went wrong";
     console.log(err);
-    // alert(err);
   }
 };
 
