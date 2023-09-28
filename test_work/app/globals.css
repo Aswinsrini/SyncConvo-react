@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components{
+    .info-text{
+        @apply p-4 bg-black/50 rounded-lg max-w-[300px]
+    }
+    .new-chat{
+        @apply rounded-lg px-5 py-2 flex items-center justify-center text-sm
+        hover:bg-white hover:text-black cursor-pointer transition-all duration-200 ease-in-out
+    }
+}
