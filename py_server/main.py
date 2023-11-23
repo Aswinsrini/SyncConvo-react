@@ -2,7 +2,6 @@ from typing import Union
 from fastapi import FastAPI
 from openai import OpenAI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
 app = FastAPI()
 client = OpenAI(
@@ -17,10 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-class ChatRequest(BaseModel):
-    pro: str
 
 
 @app.get('/chat/{message}')
