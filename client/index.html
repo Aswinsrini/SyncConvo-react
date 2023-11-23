@@ -8,19 +8,78 @@
     <link rel="stylesheet" href="style.css" />
   </head>
 
+  <script type="module" src="/script.js"></script>
+
   <body>
     <div id="app">
-      <div id="chat_container"></div>
+      <!-- <img class="overlay" src="./assets/wave.gif" alt="" /> -->
+      <div id="fullscreen-overlay">
+        <img
+          src="./assets/micro.png"
+          alt="Fullscreen Image"
+          id="fullscreen-image"
+        />
+      </div>
+      <div id="chat_container" style="position: relative"></div>
       <form>
         <textarea
           name="prompt"
+          id="prompt-mic"
           cols="1"
           rows="1"
           placeholder="Ask Code...."
         ></textarea>
-        <button type="submit"><img src="./assets/send.svg" /></button>
+
+        <div onclick="GetSpeech()">
+          <img src="./assets/micro.png" />
+        </div>
+        <button type="submit" id="click-event">
+          <img src="./assets/send.svg" />
+        </button>
       </form>
     </div>
-    <script type="module" src="/script.js"></script>
+    <script>
+      const GetSpeech = () => {
+        console.log("clicked microphone");
+        openScreen();
+        const SpeechRecognition =
+          window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        let recognition = new SpeechRecognition();
+        recognition.onstart = () => {
+          console.log("starting listening, speak in microphone");
+        };
+        recognition.onspeechend = () => {
+          console.log("stopped listening");
+          recognition.stop();
+          closeScreen();
+        };
+        recognition.onresult = (result) => {
+          console.log(result.results[0][0].transcript);
+          const val = document.getElementById("prompt-mic");
+          val.innerHTML = result.results[0][0].transcript;
+          const link = document.getElementById("click-event");
+          link.click();
+          val.innerHTML = "";
+          console.log("object");
+        };
+
+        recognition.start();
+      };
+
+      // Add click event to the image
+      function openScreen() {
+        var fullscreenOverlay = document.getElementById("fullscreen-overlay");
+        var fullscreenImage = document.getElementById("fullscreen-image");
+        fullscreenImage.src = "./assets/wave.gif";
+        fullscreenOverlay.style.display = "flex";
+      }
+
+      function closeScreen() {
+        var fullscreenOverlay = document.getElementById("fullscreen-overlay");
+        // Hide the fullscreen overlay
+        fullscreenOverlay.style.display = "none";
+      }
+    </script>
   </body>
 </html>
